@@ -1,0 +1,49 @@
+// Odoo Style
+from odoo import models, fields, api
+
+class Product(models.Model):
+    _name = 'product.product'
+    _description = 'Product'
+
+    name = fields.Char(string='Name', required=True)
+    price = fields.Float(string='Price', required=True)
+
+    @api.depends('price')
+    def compute_total_price(self):
+        for product in self:
+            product.total_price = product.price * product.quantity
+
+    quantity = fields.Integer(string='Quantity')
+    total_price = fields.Float(string='Total Price', compute='compute_total_price', store=True)
+
+// Golang style
+package main
+
+import (
+	"fmt"
+)
+
+type Product struct {
+	Name       string
+	Price      float64
+	Quantity   int
+	TotalPrice float64
+}
+
+func (p *Product) ComputeTotalPrice() {
+	p.TotalPrice = p.Price * float64(p.Quantity)
+}
+
+func main() {
+	product := Product{
+		Name:     "Laptop",
+		Price:    1000,
+		Quantity: 5,
+	}
+	product.ComputeTotalPrice()
+
+	fmt.Println("Product:", product.Name)
+	fmt.Println("Price per unit:", product.Price)
+	fmt.Println("Quantity:", product.Quantity)
+	fmt.Printf("Total price for %d units: $%.2f\n", product.Quantity, product.TotalPrice)
+}
