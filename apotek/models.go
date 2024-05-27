@@ -19,5 +19,5 @@ func (o *Obat) TableName() string {
 }
 
 func CreateObat() *Obat {
-	return &Obat{Name: "Sanmol", Price: 10000, Stock: 10}
+	return &Obat{Name: "Paracetamol", Price: 10000, Stock: 10}
 }
