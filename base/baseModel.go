@@ -4,12 +4,19 @@ import (
 	"gorm.io/gorm"
 )
 
-type Model struct {
-	gorm.Model
-	TableName   string
-	Description string
+type Model interface {
+	GetID() uint
+	SetID(id uint)
 }
 
-func (m *Model) GetTableName() string {
-	return m.TableName
+type BaseModels struct {
+	gorm.Model
+}
+
+func (m *BaseModels) GetID() uint {
+	return m.ID
+}
+
+func (m *BaseModels) SetID(id uint) {
+	m.ID = id
 }
